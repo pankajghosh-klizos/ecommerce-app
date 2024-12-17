@@ -1,0 +1,31 @@
+.colors {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.truncate-3-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.icon {
+  background-color: #f6f6f6;
+}
+
+.comment-field > form > input {
+  outline: none !important;
+}
+
+.rating-label {
+  width: 180px;
+}
+
+.rating-value {
+  width: 50px;
+}
+
+.progress-bar {
+  background-color: #ffb547;
+}

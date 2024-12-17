@@ -1,0 +1,16 @@
+.searchbar {
+  background-color: #f5f5f5;
+}
+
+.searchbar > form > input {
+  outline: none;
+}
+
+@media screen and (max-width: 992px) {
+  .nav-link .badge {
+    top: unset !important;
+    left: unset !important;
+    transform: unset !important;
+    position: unset !important;
+  }
+}

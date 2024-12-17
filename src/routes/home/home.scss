@@ -1,0 +1,52 @@
+// .home {
+//   background: linear-gradient(90.7deg, #211c24 0.64%, #211c24 101%);
+// }
+
+// .home .container {
+//   height: 45em;
+// }
+
+// .home .featured {
+//   background-color: #ededed;
+// }
+
+// .categories .d-grid,
+// .latest-product .d-grid {
+//   grid-template-columns: 1fr 1fr;
+// }
+
+// .categories .category {
+//   min-width: 140px;
+// }
+
+// .hightlight-products {
+//   background-color: #f6f6f6;
+// }
+
+// .hightlight-products .list-group-item {
+//   max-width: 300px;
+//   background-color: #ffffff;
+// }
+
+.sale {
+  background-image: url("../../assets/images/sale-banner-sm.png");
+  min-height: 35em;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media screen and (min-width: 992px) {
+  .home .banner {
+    max-width: 450px;
+    position: absolute;
+    top: 10%;
+    right: 0;
+  }
+
+  .sale {
+    background: url("../../assets/images/sale-banner-lg.png");
+    min-height: 35em;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}

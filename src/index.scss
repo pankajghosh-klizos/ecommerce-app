@@ -1,0 +1,83 @@
+@import "bootstrap/scss/bootstrap";
+@import url("https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  min-width: 360px;
+  scroll-behavior: smooth;
+}
+
+.loading {
+  opacity: 0.25;
+  transition: opacity 200ms ease-in-out 200ms;
+}
+
+.list-group-item {
+  max-width: 400px;
+}
+
+input {
+  font: inherit;
+  background: none;
+  accent-color: black;
+}
+
+input::placeholder {
+  color: var(--bs-tertiary-color) !important;
+}
+
+.form-control:focus,
+select:focus {
+  border-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  box-shadow: 0 0 0 1.5px rgba(var(--bs-dark-rgb)) !important;
+}
+
+.accordion-button:not(.collapsed) {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+.btn-dark .icon {
+  filter: brightness(2) invert(1);
+}
+
+.image-preview {
+  min-height: 400px;
+}
+
+.truncate-1-lines,
+.truncate-5-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-1-lines {
+  -webkit-line-clamp: 1;
+}
+
+.truncate-5-lines {
+  -webkit-line-clamp: 5;
+}
+
+.cover {
+  background: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bs-border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bs-secondary-bg);
+}
