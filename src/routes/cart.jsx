@@ -19,6 +19,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cartProducts } = useSelector((state) => state.cartProducts);
+  const { user } = useSelector((state) => state.auth);
 
   const taxCharge = 50;
   const shippingCharge = 50;
@@ -135,7 +136,11 @@ const Cart = () => {
   const checkoutCartProducts = () => {
     dispatch(setOrderItems(cartProducts));
     dispatch(setAmount(calculateSubtotal()));
-    navigate("/order/select-address");
+    if (user.address.length > 0) {
+      navigate("/order/select-address");
+    } else {
+      toast.error("Please add an address to continue.");
+    }
   };
 
   return (
