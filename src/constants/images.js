@@ -3,7 +3,6 @@ import playStation from "../assets/images/bento-card-banner-1.png";
 import airPodsMax from "../assets/images/bento-card-banner-2.png";
 import visionPro from "../assets/images/bento-card-banner-3.png";
 import macbookAir from "../assets/images/bento-card-banner-4.png";
-import iphone14pro from "../assets/images/iphone-14-pro.png";
 import samsungGalaxy from "../assets/images/samsung-galaxy.png";
 import authBanner from "../assets/images/auth-banner.png";
 import productBanner1 from "../assets/images/product-banner-1.png";
@@ -16,7 +15,6 @@ export const Images = {
   airPodsMax,
   visionPro,
   macbookAir,
-  iphone14pro,
   samsungGalaxy,
   authBanner,
   productBanner1,
