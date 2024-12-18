@@ -19,8 +19,10 @@ const Footer = () => {
             </Link>
 
             <p className="text-white-50 mt-3">
-              We are a residential interior design firm located in Portland. Our
-              boutique-studio offers more than
+              Cyber eCommerce - Your one-stop shop for cutting-edge gadgets,
+              electronics, and tech essentials. Shop with confidence, enjoy
+              seamless transactions, and explore the future of online shopping.
+              Stay connected, stay innovative!
             </p>
           </li>
 
