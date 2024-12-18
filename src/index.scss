@@ -40,7 +40,12 @@ select:focus {
 }
 
 .btn-dark .icon {
-  filter: brightness(2) invert(1);
+  filter: invert(1);
+  mix-blend-mode: color-dodge;
+}
+
+.btn-light:hover .icon {
+  mix-blend-mode: darken;
 }
 
 .image-preview {

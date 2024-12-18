@@ -206,7 +206,7 @@ const EditProduct = () => {
   };
 
   return (
-    <>
+    <section className="p-2 p-md-4">
       <div className="d-flex align-items-center justify-content-between gap-2 mb-4">
         <h1 className="fs-3 fw-semibold mb-0">Product Details</h1>
 
@@ -816,7 +816,7 @@ const EditProduct = () => {
       ) : (
         <PageLoader />
       )}
-    </>
+    </section>
   );
 };
 

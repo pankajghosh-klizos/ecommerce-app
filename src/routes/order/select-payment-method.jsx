@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Icons } from "../../constants/icons";
-import { Button, Container, Input, Loader } from "../../components";
+import { Button, Container, Loader } from "../../components";
 import { motion } from "motion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../../store/cartProducts.slice";
 import axios from "axios";
 import config from "../../config/config";
 import localforage from "localforage";
@@ -12,6 +13,7 @@ import toast from "react-hot-toast";
 
 const SelectPaymentMethod = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { address, amount, items, shippingMethod } = useSelector(
     (state) => state.orderDetails
@@ -45,41 +47,55 @@ const SelectPaymentMethod = () => {
   const selectedPaymentMode = watch("paymentMode");
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // Check payment mode
     if (data.paymentMode === "mode1") {
-      console.log({ address, amount: totalPrice, items });
-
-      setLoading(true);
-      try {
-        const token = await localforage.getItem("authToken");
-        if (!token) {
-          toast.error("Please login again to continue.");
-          return navigate("/login");
-        }
-
-        const res = await axios.post(
-          `${config.backendUrl}/cyber/payment/orders/placeOrderCod`,
-          { address, amount: totalPrice, items },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true,
-          }
-        );
-
-        if (res.data.success) {
-          toast.success("Order placed successfully.");
-          console.log(res.data);
-        } else {
-          toast.error(res.data.message || "Failed to place order.");
-        }
-      } catch (error) {
-        toast.error(error.response?.data?.message || "An error occurred.");
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      handleOrderPlacement("placeOrderCod", () => {
+        dispatch(clearCart());
+        navigate("/order/success");
+      });
+    } else if (data.paymentMode === "mode2") {
+      handleOrderPlacement("placeOrderStripe", (data) => {
+        window.location.href = data.session_url;
+      });
     }
   };
+
+  const handleOrderPlacement = async (endpoint, successCallback) => {
+    console.log({ address, amount: totalPrice, items });
+
+    setLoading(true);
+    try {
+      const token = await localforage.getItem("authToken");
+      if (!token) {
+        toast.error("Please login again to continue.");
+        return navigate("/login");
+      }
+
+      const res = await axios.post(
+        `${config.backendUrl}/cyber/payment/orders/${endpoint}`,
+        { address, amount: totalPrice, items },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        successCallback(res.data);
+      } else {
+        toast.error(res.data.message || "Failed to place order.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   return (
     <motion.section
@@ -254,97 +270,15 @@ const SelectPaymentMethod = () => {
                 ))}
               </ul>
 
-              {selectedPaymentMode === "mode2" && (
-                <div>
-                  <div
-                    className="position-relative mb-4"
-                    style={{ maxWidth: "30rem" }}
-                  >
-                    <img
-                      src={Icons.CreditCardIcon}
-                      alt="card"
-                      className="w-100"
-                    />
-
-                    <div className="content position-absolute top-50 w-100 px-4">
-                      {/* set card number here */}
-                      <p className="text-white fs-1 mb-2">
-                        0000 0000 0000 0000
-                      </p>
-                      {/* set card holder name here */}
-                      <p className="text-white-50 m-0 fs-5 fw-semibold">
-                        Cardholder
-                      </p>
-                    </div>
-                  </div>
-
-                  <Input
-                    type="text"
-                    placeholder="Enter the cardholder's name"
-                    containerClassName="mb-4"
-                    errorMessage={errors?.cardholderName?.message}
-                    {...register("cardholderName", {
-                      required: "Cardholder name is required",
-                      pattern: {
-                        value: /^[a-zA-Z\s]+$/,
-                        message:
-                          "Cardholder name must contain only letters and spaces",
-                      },
-                    })}
-                  />
-
-                  <Input
-                    type="text"
-                    placeholder="Enter your card number"
-                    containerClassName="mb-4"
-                    errorMessage={errors?.cardNumber?.message}
-                    {...register("cardNumber", {
-                      required: "Card number is required",
-                      pattern: {
-                        value: /^\d{16}$/,
-                        message: "Card number must be 16 digits",
-                      },
-                    })}
-                  />
-
-                  <div className="d-flex gap-2">
-                    <Input
-                      type="text"
-                      placeholder="Exp. Date"
-                      containerClassName="mb-4 w-100"
-                      errorMessage={errors?.expDate?.message}
-                      {...register("expDate", {
-                        required: "Expiration date is required",
-                        pattern: {
-                          value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                          message: "Expiration date must be in MM/YY format",
-                        },
-                      })}
-                    />
-
-                    <Input
-                      type="password"
-                      placeholder="CVV"
-                      containerClassName="mb-4 w-100"
-                      errorMessage={errors?.cvv?.message}
-                      {...register("cvv", {
-                        required: "CVV is required",
-                        pattern: {
-                          value: /^\d{3,4}$/,
-                          message: "CVV must be 3 or 4 digits",
-                        },
-                      })}
-                    />
-                  </div>
-                </div>
-              )}
-
               {errors.paymentMode && (
                 <p className="text-danger">{errors.paymentMode.message}</p>
               )}
 
               <div className="d-flex gap-3 float-md-end mt-5">
-                <Button className="btn-outline-dark rounded-2 py-3 px-5 w-100">
+                <Button
+                  className="btn-outline-dark rounded-2 py-3 px-5 w-100"
+                  onClick={() => navigate(-1)}
+                >
                   Back
                 </Button>
 

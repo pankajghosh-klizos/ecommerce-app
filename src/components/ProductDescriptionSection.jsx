@@ -1,56 +1,82 @@
+import { useSelector } from "react-redux";
 import { Container } from "../components";
+import { motion } from "motion/react";
 
 const ProductDescriptionSection = () => {
+  const { productDetails } = useSelector((state) => state.productDetails);
+  const selectedVariant = productDetails?.variants?.[0];
+
   const screenDetails = [
-    ["Screen diagonal", '6.7"'],
-    ["The screen resolution", "2796x1290"],
-    ["The screen refresh rate", "120 Hz"],
-    ["The pixel density", "460 ppi"],
-    ["Screen type", "OLED"],
-    ["Additionally", "Dynamic Island, Always-On display, HDR display..."],
+    ["Screen Size", selectedVariant?.product_screentype || "N/A"],
+    ["Battery Capacity", `${selectedVariant?.product_battery_capacity} mAh`],
+    ["Main Camera", selectedVariant?.product_main_camera || "N/A"],
+    ["Front Camera", selectedVariant?.product_front_camera || "N/A"],
   ];
 
   const cpuDetails = [
-    ["CPU", "A16 Bionic"],
-    ["Number of cores", "6"],
+    ["Processor", selectedVariant?.product_cpu || "N/A"],
+    ["Cores", selectedVariant?.product_cores || "N/A"],
   ];
 
+  // Animation Variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.3 } },
+  };
+
   return (
-    <section className="py-5 pt-0" id="#product_description">
+    <motion.section
+      className="py-5 pt-0"
+      initial="hidden"
+      animate="visible"
+      variants={staggerContainer}
+    >
       <Container>
-        <h3 className="mb-3">Details</h3>
-        <p className="text-black-50 mb-4">
-          Just as a book is judged by its cover, the first thing you notice
-          when...
-        </p>
+        <motion.h3 className="mb-3" variants={fadeInUp}>
+          Details
+        </motion.h3>
+        <motion.p className="text-black-50 mb-4" variants={fadeInUp}>
+          {productDetails?.product_description || "N/A"}
+        </motion.p>
 
-        <h4 className="mb-3">Screen</h4>
-        <ul className="list-unstyled mb-5">
+        <motion.h4 className="mb-3" variants={fadeInUp}>
+          Screen
+        </motion.h4>
+        <motion.ul className="list-unstyled mb-5" variants={fadeInUp}>
           {screenDetails.map(([label, value], index) => (
-            <li
+            <motion.li
               key={index}
               className="d-flex justify-content-between border-bottom mb-3 gap-4"
+              variants={fadeInUp}
             >
               <p>{label}</p>
               <p>{value}</p>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
-        <h4 className="mb-3">CPU</h4>
-        <ul className="list-unstyled">
+        <motion.h4 className="mb-3" variants={fadeInUp}>
+          CPU
+        </motion.h4>
+        <motion.ul className="list-unstyled" variants={fadeInUp}>
           {cpuDetails.map(([label, value], index) => (
-            <li
+            <motion.li
               key={index}
               className="d-flex justify-content-between border-bottom mb-3 gap-4"
+              variants={fadeInUp}
             >
               <p>{label}</p>
               <p>{value}</p>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </Container>
-    </section>
+    </motion.section>
   );
 };
 

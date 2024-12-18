@@ -183,6 +183,7 @@ const SelectShippingMethod = () => {
               <Button
                 type="button"
                 className="btn-outline-dark rounded-2 py-3 px-5 w-100"
+                onClick={() => navigate(-1)}
               >
                 Back
               </Button>

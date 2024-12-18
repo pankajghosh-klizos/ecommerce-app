@@ -49,7 +49,7 @@ const AddProduct = () => {
   };
 
   return (
-    <>
+    <section className="py-2 py-md-4 ps-2 ps-md-4">
       <div className="d-flex align-items-center justify-content-between gap-2 mb-4">
         <h1 className="fs-3 fw-semibold mb-0">All Products</h1>
 
@@ -59,7 +59,7 @@ const AddProduct = () => {
       </div>
 
       <form
-        className="d-lg-flex p-5 bg-body rounded-3 gap-5"
+        className="d-lg-flex bg-body rounded-3 gap-5"
         onSubmit={handleSubmit(addProductDetails)}
       >
         <div className="w-100">
@@ -174,7 +174,7 @@ const AddProduct = () => {
           </div>
         </div>
       </form>
-    </>
+    </section>
   );
 };
 

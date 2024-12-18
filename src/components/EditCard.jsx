@@ -8,6 +8,7 @@ import axios from "axios";
 import config from "../config/config";
 import localforage from "localforage";
 import Modal from "./Modal";
+import { motion } from "motion/react";
 
 const EditCard = ({ id, title = "Product Name", banner, price = 0 }) => {
   const navigate = useNavigate();
@@ -52,10 +53,21 @@ const EditCard = ({ id, title = "Product Name", banner, price = 0 }) => {
     }
   };
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    hover: { scale: 1.03 },
+  };
+
   return (
-    <div
+    <motion.div
       className="card border-light-subtle bg-light pt-3"
       style={{ width: "15rem" }}
+      initial="hidden"
+      animate="visible"
+      whileHover="hover"
+      variants={cardVariants}
+      transition={{ duration: 0.4 }}
     >
       <div className="mx-3 my-0 py-3 rounded-1 overflow-hidden d-flex justify-content-center">
         <img src={banner} alt="Product" height="180px" />
@@ -110,7 +122,7 @@ const EditCard = ({ id, title = "Product Name", banner, price = 0 }) => {
           </Modal>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

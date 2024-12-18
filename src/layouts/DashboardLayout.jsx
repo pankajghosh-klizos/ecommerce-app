@@ -5,53 +5,64 @@ import { Icons } from "../constants/icons";
 
 const DashboardLayout = ({ children }) => {
   const sidebarItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: Icons?.Dashboard,
-      path: "/admin/all-products",
-    },
+    // {
+    //   id: "dashboard",
+    //   label: "Dashboard",
+    //   icon: Icons?.Dashboard,
+    //   path: "/admin/dashboard",
+    // },
     {
       id: "allproducts",
-      label: "All Products",
+      label: "Products List",
       icon: Icons?.AllProducts,
       path: "/admin/all-products",
     },
     {
       id: "orderlist",
-      label: "Order List",
+      label: "Orders List",
       icon: Icons?.OrderList,
       path: "/admin/order-list",
     },
+    {
+      id: "userList",
+      label: "Users List",
+      icon: Icons?.Profile,
+      path: "/admin/user-list",
+    },
   ];
   return (
-    <Container className="d-flex min-vh-100">
+    <Container className="mt-5 pt-3 d-flex min-vh-100">
       <aside
-        className="border-end pt-4 pe-3 w-100"
-        style={{ maxWidth: "250px" }}
+        className="py-3 py-md-4 pe-3 border-end w-100"
+        style={{ maxWidth: "200px" }}
       >
-        <ul className="list-unstyled">
+        <ul className="list-unstyled m-0">
           {sidebarItems.map((item) => (
             <li key={item.id} className="mb-1">
               <NavLink
                 className={({ isActive }) =>
-                  isActive
-                    ? "btn btn-dark w-100 rounded-1 text-start d-flex align-items-center gap-2"
-                    : "btn btn-light w-100 rounded-1 text-start d-flex align-items-center gap-2"
+                  `btn w-100 rounded-1 text-start d-flex align-items-center gap-md-2 ${
+                    isActive ? "btn-dark" : "btn-light"
+                  }`
                 }
                 to={item.path}
               >
                 {item?.icon && (
-                  <img src={item?.icon} alt="icon" className="icon" />
+                  <img
+                    src={item?.icon}
+                    alt="icon"
+                    className="icon"
+                    height="15px"
+                  />
                 )}
-                {item.label}
+                <span className="d-none d-md-inline">{item.label}</span>
               </NavLink>
             </li>
           ))}
         </ul>
       </aside>
 
-      <div className="w-100 px-3 py-4 bg-light">{children}</div>
+      <div className="pt-2 flex-grow-1">{children}</div>
     </Container>
   );
 };

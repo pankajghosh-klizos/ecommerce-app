@@ -7,9 +7,7 @@ const Root = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (items.length > 0) {
-      navigate("/order/select-address");
-    } else {
+    if (items.length === 0) {
       navigate("/cart");
     }
   }, []);

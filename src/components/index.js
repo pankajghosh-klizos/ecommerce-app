@@ -28,6 +28,7 @@ import SaleSection from "./SaleSection";
 import ProductDetailsSection from "./ProductDetailsSection";
 import ProductDescriptionSection from "./ProductDescriptionSection";
 import ReviewsSection from "./ReviewsSection";
+import OrderStatusForm from "./OrderStatusForm";
 
 export {
   Button,
@@ -60,4 +61,5 @@ export {
   ProductDetailsSection,
   ProductDescriptionSection,
   ReviewsSection,
+  OrderStatusForm,
 };

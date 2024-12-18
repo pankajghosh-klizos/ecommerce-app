@@ -9,11 +9,9 @@ const Root = () => {
   return user?.role !== "admin" ? (
     navigate("/")
   ) : (
-    <section className="mt-5 pt-4">
-      <DashboardLayout>
-        <Outlet />
-      </DashboardLayout>
-    </section>
+    <DashboardLayout>
+      <Outlet />
+    </DashboardLayout>
   );
 };
 

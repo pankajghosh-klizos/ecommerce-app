@@ -27,6 +27,10 @@ import {
   SelectAddress,
   EditVariant,
   EditAddress,
+  PaymentVerify,
+  OrderSuccess,
+  AllOrders,
+  UserList,
 } from "./routes";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -76,6 +80,18 @@ const routes = [
         ],
       },
       {
+        path: "order/verify",
+        element: protectedRoute(true, <PaymentVerify />),
+      },
+      {
+        path: "order/success",
+        element: protectedRoute(true, <OrderSuccess />),
+      },
+      {
+        path: "order/all",
+        element: protectedRoute(true, <AllOrders />),
+      },
+      {
         path: "sign-up",
         children: [
           {
@@ -106,6 +122,7 @@ const routes = [
           },
           { path: "add-product", element: <AddProduct /> },
           { path: "order-list", element: <OrderList /> },
+          { path: "user-list", element: <UserList /> },
           { path: "product/:productId/edit", element: <EditProduct /> },
           {
             path: "product/variant/:variantId/edit",

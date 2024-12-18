@@ -135,7 +135,7 @@ const Cart = () => {
   const checkoutCartProducts = () => {
     dispatch(setOrderItems(cartProducts));
     dispatch(setAmount(calculateSubtotal()));
-    navigate("/order");
+    navigate("/order/select-address");
   };
 
   return (
@@ -195,7 +195,7 @@ const Cart = () => {
                           {/* Quantity Controls */}
                           <div className="d-flex align-items-center gap-1">
                             <Button
-                              className="fs-4 fw-light p-0 px-2"
+                              className="fs-4 fw-light p-0 px-2 border-0"
                               aria-label="Decrease quantity"
                               onClick={() =>
                                 decreaseCartItemsQuantity(item?.productId)
@@ -207,7 +207,7 @@ const Cart = () => {
                               {item?.quantity || 1}
                             </p>
                             <Button
-                              className="fs-4 fw-light p-0 px-2"
+                              className="fs-4 fw-light p-0 px-2 border-0"
                               aria-label="Increase quantity"
                               onClick={() =>
                                 increaseCartItemsQuantity(item.productId)

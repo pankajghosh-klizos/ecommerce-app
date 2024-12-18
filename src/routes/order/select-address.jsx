@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Icons } from "../../constants/icons";
 import { Button, Container } from "../../components";
@@ -158,21 +158,37 @@ const SelectAddress = () => {
               <p className="text-danger">{errors.addressId.message}</p>
             )}
 
-            <button type="button" className="btn border-0 mx-auto d-block p-0">
+            {/* <Link
+              to="/profile"
+              className="btn border-0 mx-auto d-block p-0 w-25 text-center"
+            >
               <img
                 src={Icons.AddressAddIcon}
                 alt="Add"
                 height="24"
-                className="mb-2 d-block"
+                className="mb-2 d-block mx-auto"
               />
               <span>Add new Address</span>
-            </button>
+            </Link> */}
+
+            <div className="d-flex justify-content-center">
+              <Link to="/profile" className="btn border-0">
+                <img
+                  src={Icons.AddressAddIcon}
+                  alt="Add"
+                  height="24"
+                  className="d-block mx-auto mb-2"
+                />
+                <span>Add new Address</span>
+              </Link>
+            </div>
 
             {/* Navigation Buttons */}
             <div className="d-flex gap-3 float-md-end my-5">
               <Button
                 type="button"
                 className="btn-outline-dark rounded-2 py-3 px-5 w-100"
+                onClick={() => navigate(-1)}
               >
                 Back
               </Button>

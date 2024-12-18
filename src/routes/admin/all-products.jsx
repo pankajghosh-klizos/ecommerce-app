@@ -1,35 +1,49 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { Icons } from "../../constants/icons";
 import { EditCard } from "../../components";
+import { motion } from "motion/react";
 
 const AllProducts = () => {
   const { products } = useLoaderData();
 
   return (
-    <>
-      <div className="d-flex align-items-center justify-content-between gap-2 mb-4">
-        <h1 className="fs-3 fw-semibold mb-0">All Products</h1>
+    <motion.section
+      className="ps-2 ps-md-3 pt-2 pt-md-4"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.2 } },
+      }}
+    >
+      <div className="d-flex align-items-center justify-content-between mb-3 gap-3">
+        <h1 className="fs-3 fw-semibold m-0">All Products</h1>
 
         <Link
           to="/admin/add-product"
-          className="btn btn-dark d-flex align-items-center gap-2"
+          className="btn py-1 py-md-2 btn-dark d-flex align-items-center gap-2"
         >
-          <img src={Icons?.AddCircle} alt="icon" />
-          <span>Add new product</span>
+          Add product
         </Link>
       </div>
 
       {products.length > 0 ? (
-        <ul className="list-unstyle d-flex gap-3 flex-wrap m-0 p-0">
+        <ul className="list-unstyled m-0 d-flex flex-wrap gap-3">
           {products.map((product) => (
-            <li key={product?._id} className="list-group-item product-card">
+            <motion.li
+              key={product._id}
+              className="mb-2 mb-md-0"
+              variants={{
+                hidden: { opacity: 0, y: 50 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <EditCard
                 id={product?._id}
                 title={product?.product_title}
                 banner={product?.variants[0]?.product_images[0]}
                 price={product?.product_basePrice}
               />
-            </li>
+            </motion.li>
           ))}
         </ul>
       ) : (
@@ -37,7 +51,7 @@ const AllProducts = () => {
           No products found
         </p>
       )}
-    </>
+    </motion.section>
   );
 };
 

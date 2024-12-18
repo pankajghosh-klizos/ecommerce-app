@@ -15,6 +15,7 @@ import AdminRoot from "./admin/root";
 import Dashboard from "./admin/dashboard";
 import AllProducts from "./admin/all-products";
 import OrderList from "./admin/order-list";
+import UserList from "./admin/user-list";
 import AddProduct from "./admin/add-product";
 import EditProduct from "./admin/edit";
 import EditVariant from "./admin/edit-variant";
@@ -22,6 +23,9 @@ import OrderRoot from "./order/root";
 import SelectAddress from "./order/select-address";
 import SelectPaymentMethod from "./order/select-payment-method";
 import SelectShippingMethod from "./order/select-shipping-method";
+import PaymentVerify from "./order/verify";
+import OrderSuccess from "./order/success";
+import AllOrders from "./order/all";
 import Error from "./error";
 
 export {
@@ -42,6 +46,7 @@ export {
   Dashboard,
   AllProducts,
   OrderList,
+  UserList,
   AddProduct,
   EditProduct,
   EditVariant,
@@ -49,5 +54,8 @@ export {
   SelectAddress,
   SelectPaymentMethod,
   SelectShippingMethod,
+  PaymentVerify,
+  OrderSuccess,
+  AllOrders,
   Error,
 };
