@@ -90,11 +90,7 @@ const AllOrders = () => {
                   </p>
 
                   <p className="card-title text-black-50 m-0">
-                    {new Date(order.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {order.deliveryDate}
                   </p>
                 </div>
 
@@ -113,6 +109,20 @@ const AllOrders = () => {
                     <p className="card-text text-black-50 m-0">
                       <span className="me-1 text-black">Payment Status:</span>
                       {order.paymentStatus}
+                    </p>
+
+                    <p className="card-text text-black-50 m-0">
+                      <span className="me-1 text-black">Payment Method:</span>
+                      {order.shippingMethod}
+                    </p>
+
+                    <p className="card-text text-black-50 m-0">
+                      <span className="me-1 text-black">Created At:</span>
+                      {new Date(order.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </p>
                   </div>
 

@@ -5,6 +5,7 @@ const initialState = {
   amount: 0,
   shippingMethod: "",
   address: {},
+  deliveryDate: "",
 };
 
 const orderDetailsSlice = createSlice({
@@ -48,6 +49,10 @@ const orderDetailsSlice = createSlice({
       // Sets the shipping method for the order
       state.shippingMethod = action.payload;
     },
+    setDeliveryDate: (state, action) => {
+      // Sets the delivery date for the order
+      state.deliveryDate = action.payload;
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   setAddress,
   setAmount,
   setShippingMethod,
+  setDeliveryDate,
 } = orderDetailsSlice.actions;
 
 export default orderDetailsSlice.reducer;

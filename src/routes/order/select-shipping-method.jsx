@@ -5,7 +5,11 @@ import { Button, Container } from "../../components";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setShippingMethod } from "../../store/orderDetails.slice";
+import {
+  setShippingMethod,
+  setDeliveryDate,
+} from "../../store/orderDetails.slice";
+import { i } from "motion/react-client";
 
 const SelectShippingMethod = () => {
   const navigate = useNavigate();
@@ -31,6 +35,7 @@ const SelectShippingMethod = () => {
 
   const getFormattedDate = (date) => {
     return new Intl.DateTimeFormat("en-GB", {
+      weekday: "short",
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -57,6 +62,16 @@ const SelectShippingMethod = () => {
   const selectedMethod = watch("shippingMethod");
 
   const onSubmit = (data) => {
+    console.log(data);
+
+    if (selectedMethod === "method1") {
+      dispatch(setDeliveryDate(getFormattedDate(oneWeekLater)));
+    }
+
+    if (selectedMethod === "method2") {
+      dispatch(setDeliveryDate(getFormattedDate(tommorow)));
+    }
+
     dispatch(setShippingMethod(data.shippingMethod));
     navigate("/order/select-payment-method");
   };
@@ -127,6 +142,7 @@ const SelectShippingMethod = () => {
                 >
                   <div className="pt-1">
                     <input
+                      id={method.id}
                       type="radio"
                       value={method.id}
                       style={{ height: "20px", width: "20px" }}
@@ -136,8 +152,8 @@ const SelectShippingMethod = () => {
                     />
                   </div>
 
-                  <div className="w-100 d-md-flex gap-4">
-                    <p className="fs-5 m-0 fw-semibold">
+                  <label className="w-100 d-md-flex gap-4" htmlFor={method.id}>
+                    <span className="fs-5 m-0 fw-semibold">
                       {method?.amount === 0 ? (
                         "Free"
                       ) : (
@@ -147,10 +163,10 @@ const SelectShippingMethod = () => {
                             : `₹ ${method?.amount}`}
                         </>
                       )}
-                    </p>
+                    </span>
 
-                    <p className="fs-5 m-0">{method?.label}</p>
-                  </div>
+                    <span className="fs-5 m-0">{method?.label}</span>
+                  </label>
 
                   <div>
                     {method?.amount === 0 ? (

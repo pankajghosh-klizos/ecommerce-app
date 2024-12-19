@@ -15,11 +15,21 @@ const SelectPaymentMethod = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { address, amount, items, shippingMethod } = useSelector(
+  const { address, amount, items, shippingMethod, deliveryDate } = useSelector(
     (state) => state.orderDetails
   );
   const totalPrice =
     shippingMethod === "method1" ? amount + 50 : amount + 50 + 50;
+
+  let shippingDescription;
+  if (shippingMethod === "method1") {
+    shippingDescription = "Free Delivery";
+  } else if (shippingMethod === "method2") {
+    shippingDescription = "Quick Delivery";
+  } else {
+    shippingDescription = "Scheduled Delivery";
+  }
+
   const [loading, setLoading] = useState(false);
 
   const paymentModes = [
@@ -61,7 +71,13 @@ const SelectPaymentMethod = () => {
   };
 
   const handleOrderPlacement = async (endpoint, successCallback) => {
-    console.log({ address, amount: totalPrice, items });
+    console.log({
+      address,
+      amount: totalPrice,
+      items,
+      deliveryDate,
+      shippingMethod: shippingDescription,
+    });
 
     setLoading(true);
     try {
@@ -73,7 +89,13 @@ const SelectPaymentMethod = () => {
 
       const res = await axios.post(
         `${config.backendUrl}/cyber/payment/orders/${endpoint}`,
-        { address, amount: totalPrice, items },
+        {
+          address,
+          amount: totalPrice,
+          items,
+          deliveryDate,
+          shippingMethod: shippingDescription,
+        },
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
