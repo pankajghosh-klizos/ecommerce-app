@@ -61,46 +61,29 @@ const Search = ({ className = "" }) => {
             placeholder="Type to search..."
           />
 
-          {results.length > 0 ? (
-            <Button
-              type="button"
-              className="btn-dark btn-sm w-100"
-              onClick={() => {
-                reset();
-                setResults([]);
-                setQuery("");
-              }}
-            >
-              Clear
-            </Button>
-          ) : (
-            <>
-              {searchInput.trim() !== "" ? (
-                <Button type="submit" className="btn-dark btn-sm w-100">
-                  Search
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  className="btn-dark btn-sm w-100 opacity-0"
-                >
-                  Search
-                </Button>
-              )}
-            </>
-          )}
+          <Button
+            type="button"
+            className={`btn-dark btn-sm ${!query && "opacity-0"}`}
+            onClick={() => {
+              reset();
+              setResults([]);
+              setQuery("");
+            }}
+          >
+            Clear
+          </Button>
         </form>
       </div>
 
       {results.length > 0 && (
         <motion.div
-          className="position-absolute overflow-hidden mt-2 rounded p-2 bg-light border shadow-sm"
+          className="position-absolute overflow-hidden mt-2 rounded p-2 bg-light border shadow-sm w-100"
           initial={{ y: -10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <ul
-            className="w-100 bg-light list-unstyled m-0 overflow-hidden overflow-y-auto"
+            className="bg-light list-unstyled m-0 overflow-hidden overflow-y-auto"
             style={{ maxHeight: "200px" }}
           >
             {results.map((item) => (
