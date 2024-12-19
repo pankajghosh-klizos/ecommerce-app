@@ -68,6 +68,13 @@ const Cart = () => {
 
   // increase quantity
   const increaseCartItemsQuantity = async (productId) => {
+    const product = cartProducts.find((item) => item.productId === productId);
+
+    if (product.quantity >= product.product_stock) {
+      toast.error("Product is out of stock.");
+      return;
+    }
+
     dispatch(increaseQuantity(productId));
 
     try {
@@ -214,6 +221,7 @@ const Cart = () => {
                             <Button
                               className="fs-4 fw-light p-0 px-2 border-0"
                               aria-label="Decrease quantity"
+                              disabled={item?.quantity <= 1}
                               onClick={() =>
                                 decreaseCartItemsQuantity(item?.productId)
                               }
@@ -226,6 +234,7 @@ const Cart = () => {
                             <Button
                               className="fs-4 fw-light p-0 px-2 border-0"
                               aria-label="Increase quantity"
+                              disabled={item?.quantity >= item?.product_stock}
                               onClick={() =>
                                 increaseCartItemsQuantity(item.productId)
                               }
