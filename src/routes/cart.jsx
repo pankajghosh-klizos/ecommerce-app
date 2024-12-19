@@ -101,6 +101,13 @@ const Cart = () => {
 
   // descreas quantity
   const decreaseCartItemsQuantity = async (productId) => {
+    if (
+      cartProducts.find((item) => item.productId === productId).quantity <= 1
+    ) {
+      removeItemFromCart(productId);
+      return;
+    }
+
     dispatch(decreaseQuantity(productId));
 
     try {
@@ -136,11 +143,16 @@ const Cart = () => {
   const checkoutCartProducts = () => {
     dispatch(setOrderItems(cartProducts));
     dispatch(setAmount(calculateSubtotal()));
-    if (user.address.length > 0) {
-      navigate("/order/select-address");
-    } else {
-      toast.error("Please add an address to continue.");
+
+    if (!user.address.length > 0) {
+      return toast.error("Please add an address to continue.");
     }
+
+    if (!user.email) {
+      return toast.error("Please add an email to continue.");
+    }
+
+    navigate("/order/select-address");
   };
 
   return (
