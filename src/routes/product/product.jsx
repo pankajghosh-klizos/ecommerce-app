@@ -34,7 +34,7 @@ const ProductDetails = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getProductDetailsById();
-  }, []);
+  }, [productId]);
 
   return (
     <>
