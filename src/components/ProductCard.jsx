@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Icons } from "../constants/icons.js";
@@ -11,8 +12,9 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../store/wishlistProducts.slice.js";
-import { addToCart } from "../store/cartProducts.slice.js";
+import { setCartProducts } from "../store/cartProducts.slice.js";
 import { motion } from "motion/react";
+import Loader from "./Loader/Loader.jsx";
 
 const ProductCard = ({ id, title, banner, price }) => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const ProductCard = ({ id, title, banner, price }) => {
   const { products } = useSelector((state) => state.products);
   const { wishlistProducts } = useSelector((state) => state.wishlistProducts);
   const { cartProducts } = useSelector((state) => state.cartProducts);
+  const [loading, setLoading] = useState(false);
 
   const isInWishlist = (productId) => {
     return wishlistProducts.some((item) => item.id === productId);
@@ -87,27 +90,17 @@ const ProductCard = ({ id, title, banner, price }) => {
   };
 
   const addProductInCart = async (productId, quantity = 1) => {
+    setLoading(true);
+
     const product = products.find((product) => product._id === productId);
-    dispatch(
-      addToCart({
-        ...product,
-        cartItemId: product._id,
-        product_image: product?.variants[0]?.product_images[0],
-        productId: product._id,
-        product_price:
-          (product.product_basePrice +
-            product?.variants[0]?.product_additional_price) *
-          quantity,
-        quantity,
-      })
-    );
+
     try {
       const token = await localforage.getItem("authToken");
       if (!token) {
         return toast.error("Please login again to continue.");
       }
 
-      await axios.post(
+      const res = await axios.post(
         `${config.backendUrl}/cyber/user/cart/addToCart`,
         {
           productId,
@@ -121,6 +114,12 @@ const ProductCard = ({ id, title, banner, price }) => {
           withCredentials: true,
         }
       );
+
+      if (res.data.success) {
+        dispatch(setCartProducts(res.data.cart));
+      }
+
+      console.log(res.data);
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -128,6 +127,8 @@ const ProductCard = ({ id, title, banner, price }) => {
           "An error occurred."
       );
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -194,7 +195,7 @@ const ProductCard = ({ id, title, banner, price }) => {
                 className="btn-dark rounded-1 w-100"
                 onClick={() => addProductInCart(id)}
               >
-                Add to Cart
+                Add to Cart {loading && <Loader data-bs-theme="dark" />}
               </Button>
             ) : (
               <Link to={`/cart`} className="btn btn-secondary rounded-1 w-100">

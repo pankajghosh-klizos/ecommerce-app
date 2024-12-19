@@ -166,36 +166,28 @@ const Profile = () => {
 
   return (
     <>
-      <section className="mt-5 mb-4">
+      <section className="mt-5 pt-3 pt-md-4">
         <Container>
-          <div
-            className="cover w-100 position-relative px-5 rounded-bottom-5"
-            style={{ height: "9rem" }}
-          >
+          <div className="profile-cover w-100"></div>
+
+          <div className="d-md-flex align-items-end gap-4 py-4">
             <div
-              className="shadow-sm p-1 rounded-4 bg-body position-absolute top-50"
-              style={{ height: "9rem", width: "9rem" }}
+              className="border p-1 rounded-2 mb-3 mb-md-0 mx-auto mx-md-0"
+              style={{ width: "120px", height: "120px" }}
             >
               <img
                 src={user?.profilePhoto}
-                className="object-fit-cover rounded-4"
-                height="100%"
-                width="100%"
-                alt="Profile"
+                alt="profile"
+                className="img-fluid rounded-2"
               />
             </div>
-          </div>
 
-          <div
-            className="py-3 d-flex gap-2 align-items-center justify-content-between"
-            style={{ marginLeft: "14rem" }}
-          >
-            <div>
+            <div className="flex-grow-1 mb-3 mb-md-0 text-center text-md-start">
               <h1 className="fs-3 fw-semibold mb-0">{user?.fullname}</h1>
-              <p className="mb-0 text-black-50">{user?.email}</p>
+              <p className="text-black-50 mb-0">{user?.email}</p>
             </div>
 
-            <div className="d-flex gap-2">
+            <div className="d-flex justify-content-center justify-content-md-start gap-2">
               {user?.role === "admin" ? (
                 <Link to="/admin/all-products" className="btn btn-outline-dark">
                   Go to dashboard
@@ -235,7 +227,7 @@ const Profile = () => {
           <p className="fs-4 fw-semibold mb-3">Details</p>
 
           <form
-            className="p-5 bg-body rounded-3 gap-5 border mb-5"
+            className="p-3 p-md-5 bg-body rounded-3 gap-5 border mb-5"
             onSubmit={handleSubmit(editProfileDetails)}
           >
             <div className="d-lg-flex gap-lg-4">
@@ -270,7 +262,7 @@ const Profile = () => {
               </div>
 
               <div className="w-100">
-                <Input
+                {/* <Input
                   label="Profile Image"
                   type="file"
                   containerClassName="mb-3"
@@ -278,20 +270,27 @@ const Profile = () => {
                   errorMessage={errors?.file?.message}
                   style={{ height: "38px" }}
                   {...register("file")}
-                />
+                /> */}
 
                 <Input label="Phone" {...register("phone")} disabled />
+
+                <div className="d-flex gap-2 justify-content-end">
+                  <Button
+                    className="btn-secondary"
+                    onClick={() => navigate(-1)}
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    className="btn-success"
+                    disabled={loading}
+                  >
+                    Save {loading && <Loader data-bs-theme="dark" />}
+                  </Button>
+                </div>
               </div>
-            </div>
-
-            <div className="d-lg-flex gap-2 justify-content-end">
-              <Button className="btn-secondary" onClick={() => navigate(-1)}>
-                Cancel
-              </Button>
-
-              <Button type="submit" className="btn-success" disabled={loading}>
-                Save {loading && <Loader data-bs-theme="dark" />}
-              </Button>
             </div>
           </form>
 
