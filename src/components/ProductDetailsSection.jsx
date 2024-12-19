@@ -68,7 +68,7 @@ const ProductDetailsSection = () => {
   // add item in cart
   const addProductInCart = async (productId, quantity = 1) => {
     const product = products.find((product) => product._id === productId);
-    console.log(product);
+
     dispatch(
       addToCart({
         ...product,
@@ -113,13 +113,13 @@ const ProductDetailsSection = () => {
   };
 
   // add item in wishlist
-  const addProductInWishlist = async () => {
+  const addProductInWishlist = async (id, title, banner, price) => {
     dispatch(
       addToWishlist({
-        id: productDetails._id,
-        title: productDetails.product_title,
-        images: productDetails.variants[0],
-        basePrice: productDetails.product_basePrice,
+        id,
+        title,
+        images: banner,
+        basePrice: price,
         isWishlist: true,
       })
     );
@@ -130,7 +130,7 @@ const ProductDetailsSection = () => {
       }
       await axios.post(
         `${config.backendUrl}/cyber/user/wishlist/addToWishlist`,
-        { productId: productDetails._id },
+        { productId: id },
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -167,44 +167,44 @@ const ProductDetailsSection = () => {
       <Container>
         <div className="d-lg-flex">
           {/* Product Images */}
-          <div className="w-100">
-            <div className="d-lg-flex gap-3 h-100">
-              {/* Main Image */}
-              <motion.div
-                className="p-4 order-2 mb-3 mb-md-0 w-100 d-flex justify-content-center align-items-center bg-body-tertiary rounded-2"
-                variants={fadeInUp}
-              >
-                <img
-                  src={selectedVariant.product_images?.[imageIndex] || ""}
-                  alt="product-main"
-                />
-              </motion.div>
 
-              {/* Thumbnails */}
-              <ul className="list-unstyled m-0 d-flex d-md-block justify-content-center gap-2 mb-4 mb-md-0">
-                {selectedVariant.product_images?.map((image, index) => (
-                  <motion.li
-                    key={index}
-                    className="p-2 bg-body-tertiary rounded-2 shadow-sm border border-2 border-light mb-2"
-                    variants={fadeInUp}
-                    style={{ width: "80px", height: "80px" }}
+          <div className="d-lg-flex gap-3 w-100">
+            {/* Main Image */}
+            <motion.div
+              className="order-2 mb-3 mb-md-0 w-100 d-flex justify-content-center align-items-center bg-body-tertiary rounded-2"
+              variants={fadeInUp}
+            >
+              <img
+                src={selectedVariant.product_images?.[imageIndex] || ""}
+                alt="product-main"
+                className="img-fluid"
+              />
+            </motion.div>
+
+            {/* Thumbnails */}
+            <ul className="list-unstyled m-0 d-flex d-md-block justify-content-center gap-2 mb-4 mb-md-0">
+              {selectedVariant.product_images?.map((image, index) => (
+                <motion.li
+                  key={index}
+                  className="p-2 bg-body-tertiary rounded-2 shadow-sm border border-2 border-light mb-2"
+                  variants={fadeInUp}
+                  style={{ width: "80px", height: "80px" }}
+                >
+                  <Button
+                    className="p-0 border-0 w-100 h-100"
+                    onClick={() => {
+                      setImageIndex(index);
+                    }}
                   >
-                    <Button
-                      className="p-0 border-0 w-100"
-                      onClick={() => {
-                        setImageIndex(index);
-                      }}
-                    >
-                      <img
-                        src={image}
-                        alt={`thumbnail-${index}`}
-                        height="60px"
-                      />
-                    </Button>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
+                    <img
+                      src={image}
+                      alt={`thumbnail-${index}`}
+                      className="img-fluid"
+                    />
+                  </Button>
+                </motion.li>
+              ))}
+            </ul>
           </div>
 
           {/* Product Details */}
@@ -226,9 +226,9 @@ const ProductDetailsSection = () => {
             <motion.div className="d-flex gap-4 mb-3" variants={fadeInUp}>
               <p>Select color:</p>
               <div className="d-flex gap-2">
-                {variants.map((variant, index) => (
+                {variants.map((variant) => (
                   <button
-                    key={index}
+                    key={variant._id}
                     onClick={() => handleVariantChange(variant)}
                     className="btn rounded-circle colors p-0 border"
                     style={{
@@ -242,22 +242,23 @@ const ProductDetailsSection = () => {
             </motion.div>
 
             {/* Select Storage */}
-            <motion.div className="d-flex mb-3" variants={fadeInUp}>
-              <div className="d-flex gap-2 w-100">
-                {variants.map((variant, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleVariantChange(variant)}
-                    className={`btn rounded-2 w-25 ${
-                      selectedVariant._id === variant._id
-                        ? "btn-dark"
-                        : "btn-outline-dark"
-                    }`}
-                  >
-                    {variant.product_storage}
-                  </button>
-                ))}
-              </div>
+            <motion.div
+              className="d-flex gap-2 flex-wrap mb-3"
+              variants={fadeInUp}
+            >
+              {variants.map((variant) => (
+                <Button
+                  key={variant._id}
+                  onClick={() => handleVariantChange(variant)}
+                  className={`rounded-2 w-25 ${
+                    selectedVariant._id === variant._id
+                      ? "btn-dark"
+                      : "btn-outline-dark"
+                  }`}
+                >
+                  {variant.product_storage}
+                </Button>
+              ))}
             </motion.div>
 
             {/* Product Description */}
@@ -275,7 +276,17 @@ const ProductDetailsSection = () => {
                 variants={fadeInUp}
               >
                 {!isInWishlist(productDetails._id) ? (
-                  <Button className="btn-dark btn-lg rounded-1 py-2 px-5">
+                  <Button
+                    className="btn-dark btn-lg rounded-1 py-2 px-5"
+                    onClick={() =>
+                      addProductInWishlist(
+                        productDetails._id,
+                        productDetails.product_title,
+                        productDetails.variants[0].product_images[0],
+                        productDetails.product_basePrice
+                      )
+                    }
+                  >
                     Add to Wishlist
                   </Button>
                 ) : (
