@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Images } from "../constants/images";
-import Button from "./Button";
 import Container from "./Container";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => (
   <section
@@ -26,9 +26,12 @@ const HeroSection = () => (
           <p className="text-white-50 fw-light mb-4 fs-5">
             Created to change everything for the better. For everyone
           </p>
-          <Button className="btn btn-outline-light px-5 py-3 mx-auto mx-md-0">
-            Shop Now
-          </Button>
+          <Link
+            to="/products/product/6752b332ad9cec5bf03c59b1"
+            className="btn btn-outline-light px-5 py-3 mx-auto mx-md-0"
+          >
+            View More
+          </Link>
         </motion.div>
 
         {/* Animated Image Section */}
