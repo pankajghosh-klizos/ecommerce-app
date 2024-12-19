@@ -24,6 +24,7 @@ const ProductDetailsSection = () => {
   const title = productDetails?.product_title || "Product Name";
   const variants = productDetails?.variants || [];
   const [selectedVariant, setSelectedVariant] = useState({});
+  const [imageIndex, setImageIndex] = useState(0);
 
   const features = [
     {
@@ -164,33 +165,45 @@ const ProductDetailsSection = () => {
       variants={staggerContainer}
     >
       <Container>
-        <div className="d-lg-flex align-items-center">
+        <div className="d-lg-flex">
           {/* Product Images */}
           <div className="w-100">
-            <div className="d-lg-flex gap-3">
+            <div className="d-lg-flex gap-3 h-100">
               {/* Main Image */}
-              <motion.div className="p-4 order-2 mx-auto" variants={fadeInUp}>
+              <motion.div
+                className="p-4 order-2 mb-3 mb-md-0 w-100 d-flex justify-content-center align-items-center bg-body-tertiary rounded-2"
+                variants={fadeInUp}
+              >
                 <img
-                  src={selectedVariant.product_images?.[0] || ""}
+                  src={selectedVariant.product_images?.[imageIndex] || ""}
                   alt="product-main"
-                  className="w-100"
                 />
               </motion.div>
 
               {/* Thumbnails */}
-              <div className="d-flex justify-content-center justify-content-lg-start d-lg-block mt-lg-4 mb-4 order-1">
+              <ul className="list-unstyled m-0 d-flex d-md-block justify-content-center gap-2 mb-4 mb-md-0">
                 {selectedVariant.product_images?.map((image, index) => (
-                  <motion.div key={index} className="p-2" variants={fadeInUp}>
-                    <Button className="p-0">
+                  <motion.li
+                    key={index}
+                    className="p-2 bg-body-tertiary rounded-2 shadow-sm border border-2 border-light mb-2"
+                    variants={fadeInUp}
+                    style={{ width: "80px", height: "80px" }}
+                  >
+                    <Button
+                      className="p-0 border-0 w-100"
+                      onClick={() => {
+                        setImageIndex(index);
+                      }}
+                    >
                       <img
                         src={image}
                         alt={`thumbnail-${index}`}
-                        height="80px"
+                        height="60px"
                       />
                     </Button>
-                  </motion.div>
+                  </motion.li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
 
@@ -220,10 +233,8 @@ const ProductDetailsSection = () => {
                     className="btn rounded-circle colors p-0 border"
                     style={{
                       backgroundColor: variant.product_color,
-                      border:
-                        selectedVariant._id === variant._id
-                          ? "2px solid black"
-                          : "none",
+                      scale:
+                        selectedVariant._id === variant._id ? "1.1" : "0.9",
                     }}
                   ></button>
                 ))}
@@ -237,8 +248,10 @@ const ProductDetailsSection = () => {
                   <button
                     key={index}
                     onClick={() => handleVariantChange(variant)}
-                    className={`btn btn-outline-dark rounded-2 w-25 ${
-                      selectedVariant._id === variant._id ? "" : "opacity-50"
+                    className={`btn rounded-2 w-25 ${
+                      selectedVariant._id === variant._id
+                        ? "btn-dark"
+                        : "btn-outline-dark"
                     }`}
                   >
                     {variant.product_storage}
