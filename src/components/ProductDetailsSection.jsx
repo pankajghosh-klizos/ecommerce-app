@@ -35,8 +35,11 @@ const ProductDetailsSection = () => {
     },
     {
       icon: Icons.Home,
-      title: "In Stock",
-      subtitle: `${selectedVariant.product_stock || 0} units`,
+      title: "Stock Status",
+      subtitle:
+        selectedVariant.product_stock > 0
+          ? `${selectedVariant.product_stock} units`
+          : "Out of Stock",
       iconSize: "22px",
     },
     {
@@ -301,6 +304,7 @@ const ProductDetailsSection = () => {
                 {!isInCart(productDetails._id) ? (
                   <Button
                     className="btn-outline-dark btn-lg rounded-1 py-2 px-5"
+                    disabled={selectedVariant.product_stock <= 0}
                     onClick={() => addProductInCart(productDetails._id)}
                   >
                     Add to Cart

@@ -23,6 +23,7 @@ const ProductCard = ({ id, title, banner, price }) => {
   const { wishlistProducts } = useSelector((state) => state.wishlistProducts);
   const { cartProducts } = useSelector((state) => state.cartProducts);
   const [loading, setLoading] = useState(false);
+  const [outOfStock, setOutOfStock] = useState(false);
 
   const isInWishlist = (productId) => {
     return wishlistProducts.some((item) => item.id === productId);
@@ -117,9 +118,10 @@ const ProductCard = ({ id, title, banner, price }) => {
 
       if (res.data.success) {
         dispatch(setCartProducts(res.data.cart));
+      } else {
+        setOutOfStock(true);
+        toast.error(res.data.message);
       }
-
-      console.log(res.data);
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -193,9 +195,11 @@ const ProductCard = ({ id, title, banner, price }) => {
             {!isInCart(id) ? (
               <Button
                 className="btn-dark rounded-1 w-100"
+                disabled={outOfStock || loading}
                 onClick={() => addProductInCart(id)}
               >
-                Add to Cart {loading && <Loader data-bs-theme="dark" />}
+                {outOfStock ? "Out of stock" : "Add to Cart"}{" "}
+                {loading && <Loader data-bs-theme="dark" />}
               </Button>
             ) : (
               <Link to={`/cart`} className="btn btn-secondary rounded-1 w-100">
