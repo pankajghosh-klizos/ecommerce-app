@@ -112,12 +112,12 @@ const AllOrders = () => {
                     </p>
 
                     <p className="card-text text-black-50 m-0">
-                      <span className="me-1 text-black">Payment Method:</span>
+                      <span className="me-1 text-black">Shipping Method:</span>
                       {order.shippingMethod}
                     </p>
 
                     <p className="card-text text-black-50 m-0">
-                      <span className="me-1 text-black">Created At:</span>
+                      <span className="me-1 text-black">Order Date:</span>
                       {new Date(order.date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
