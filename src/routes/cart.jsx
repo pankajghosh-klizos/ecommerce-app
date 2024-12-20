@@ -221,7 +221,6 @@ const Cart = () => {
                             <Button
                               className="fs-4 fw-light p-0 px-2 border-0"
                               aria-label="Decrease quantity"
-                              disabled={item?.quantity <= 1}
                               onClick={() =>
                                 decreaseCartItemsQuantity(item?.productId)
                               }
