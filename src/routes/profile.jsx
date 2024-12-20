@@ -79,6 +79,7 @@ const Profile = () => {
       if (res.data.success) {
         toast.success(res.data.message || "Profile updated successfully.");
         dispatch(updateUser(res.data.user));
+        window.location.reload();
       } else {
         toast.error(res.data.message || "Failed to update profile.");
       }
@@ -167,19 +168,51 @@ const Profile = () => {
   return (
     <>
       <section className="mt-5 pt-3 pt-md-4">
-        <Container>
-          <div className="profile-cover w-100"></div>
+        <Container className="position-relative">
+          <div className="profile-cover w-100 rounded-bottom-3 position-absolute top-0 start-0"></div>
 
-          <div className="d-md-flex align-items-end gap-4 py-4">
+          <div className="d-md-flex align-items-end gap-4 py-4 pt-5">
             <div
-              className="border p-1 rounded-2 mb-3 mb-md-0 mx-auto mx-md-0"
-              style={{ width: "120px", height: "120px" }}
+              id="upload"
+              className="border p-1 rounded-2 mb-3 mb-md-0 mx-auto mx-md-0 position-relative bg-light border-secondary-subtle d-flex justify-content-center align-items-center"
+              style={{
+                width: "120px",
+                height: "120px",
+              }}
             >
               <img
                 src={user?.profilePhoto}
                 alt="profile"
-                className="img-fluid rounded-2"
+                className="img-fluid rounded-1 border border-secondary-subtle h-100"
               />
+
+              <div className="position-absolute">
+                <Modal id="uploadProfilePhoto" title="Upload" isCentered={true}>
+                  <form onSubmit={handleSubmit(editProfileDetails)}>
+                    <Input
+                      type="file"
+                      errorMessage={errors?.file?.message}
+                      {...register("file", {
+                        required: "Please upload a photo",
+                      })}
+                    />
+
+                    <div className="d-flex justify-content-end gap-2 mt-3">
+                      <Button
+                        className="btn-secondary"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        Cancel
+                      </Button>
+
+                      <Button className="btn-success" type="submit">
+                        Upload {loading && <Loader data-bs-theme="dark" />}
+                      </Button>
+                    </div>
+                  </form>
+                </Modal>
+              </div>
             </div>
 
             <div className="flex-grow-1 mb-3 mb-md-0 text-center text-md-start">
@@ -222,7 +255,7 @@ const Profile = () => {
         </Container>
       </section>
 
-      <section className="py-5 pt-0">
+      <section className="py-5 pt-4">
         <Container>
           <p className="fs-4 fw-semibold mb-3">Details</p>
 
@@ -268,13 +301,12 @@ const Profile = () => {
                   containerClassName="mb-3"
                   accept="image/*"
                   errorMessage={errors?.file?.message}
-                  style={{ height: "38px" }}
                   {...register("file")}
                 /> */}
 
                 <Input label="Phone" {...register("phone")} disabled />
 
-                <div className="d-flex gap-2 justify-content-end">
+                <div className="d-flex gap-2 justify-content-end mt-md-5">
                   <Button
                     className="btn-secondary"
                     onClick={() => navigate(-1)}
@@ -452,9 +484,9 @@ const Profile = () => {
                     <motion.li
                       key={address._id}
                       className="d-lg-flex align-items-center justify-content-between gap-4 border p-4 rounded-3 bg-body"
-                      initial={{ opacity: 0, y: 50 }} // Initial state: hidden and shifted down
-                      animate={{ opacity: 1, y: 0 }} // Animate to visible and original position
-                      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth animation
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
                     >
                       {/* Address Details */}
                       <div className="w-100">

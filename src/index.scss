@@ -87,3 +87,12 @@ select:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--bs-secondary-bg);
 }
+
+#upload:is(:hover) > div > button {
+  opacity: 1;
+  transition: 200ms ease-in-out;
+}
+
+#upload > div > button {
+  opacity: 0;
+}
