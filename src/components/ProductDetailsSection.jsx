@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Container } from "../components";
+import { Button, Container, Loader } from "../components";
 import { Icons } from "../constants/icons";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { toast } from "react-hot-toast";
-import { addToCart } from "../store/cartProducts.slice.js";
+import { setCartProducts } from "../store/cartProducts.slice.js";
 import { addToWishlist } from "../store/wishlistProducts.slice.js";
 import localforage from "localforage";
 import axios from "axios";
@@ -25,6 +25,8 @@ const ProductDetailsSection = () => {
   const variants = productDetails?.variants || [];
   const [selectedVariant, setSelectedVariant] = useState({});
   const [imageIndex, setImageIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [outOfStock, setOutOfStock] = useState(false);
 
   const features = [
     {
@@ -70,28 +72,17 @@ const ProductDetailsSection = () => {
 
   // add item in cart
   const addProductInCart = async (productId, quantity = 1) => {
+    setLoading(true);
+
     const product = products.find((product) => product._id === productId);
 
-    dispatch(
-      addToCart({
-        ...product,
-        cartItemId: product._id,
-        product_image: product?.variants[0]?.product_images[0],
-        productId: product._id,
-        product_price:
-          (product.product_basePrice +
-            product?.variants[0]?.product_additional_price) *
-          quantity,
-        quantity,
-      })
-    );
     try {
       const token = await localforage.getItem("authToken");
       if (!token) {
         return toast.error("Please login again to continue.");
       }
 
-      await axios.post(
+      const res = await axios.post(
         `${config.backendUrl}/cyber/user/cart/addToCart`,
         {
           productId,
@@ -105,6 +96,13 @@ const ProductDetailsSection = () => {
           withCredentials: true,
         }
       );
+
+      if (res.data.success) {
+        dispatch(setCartProducts(res.data.cart));
+      } else {
+        setOutOfStock(true);
+        toast.error(res.data.message);
+      }
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -112,6 +110,8 @@ const ProductDetailsSection = () => {
           "An error occurred."
       );
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -307,7 +307,8 @@ const ProductDetailsSection = () => {
                     disabled={selectedVariant.product_stock <= 0}
                     onClick={() => addProductInCart(productDetails._id)}
                   >
-                    Add to Cart
+                    {outOfStock ? "Out of stock" : "Add to Cart"}{" "}
+                    {loading && <Loader data-bs-theme="dark" />}
                   </Button>
                 ) : (
                   <Link
