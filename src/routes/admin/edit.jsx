@@ -497,7 +497,7 @@ const EditProduct = () => {
                         options={[
                           { value: "apple", label: "Apple" },
                           { value: "samsung", label: "Samsung" },
-                          { value: "google", label: "Google Pixel" },
+                          { value: "google", label: "Google" },
                           { value: "sony", label: "Sony" },
                         ]}
                         containerClassName="mb-4"
@@ -661,15 +661,19 @@ const EditProduct = () => {
                   >
                     <div className="d-grid gap-3">
                       <div className="w-100 d-flex gap-3">
-                        <img
-                          src={
-                            variant?.product_images[0] ||
-                            Images.DefaultPlaceholder
-                          }
-                          alt="product-image-2"
-                          height="150px"
-                          width="150px"
-                        />
+                        <div
+                          className="d-flex align-items-center justify-content-center border border-light-subtle"
+                          style={{ height: "150px", width: "150px" }}
+                        >
+                          <img
+                            src={
+                              variant?.product_images[0] ||
+                              Images.DefaultPlaceholder
+                            }
+                            alt="product-image-2"
+                            className="object-fit-cover h-100"
+                          />
+                        </div>
 
                         <img
                           src={
@@ -691,6 +695,7 @@ const EditProduct = () => {
                           alt="product-image-2"
                           height="150px"
                           width="150px"
+                          className="object-fit-cover"
                         />
 
                         <img
