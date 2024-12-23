@@ -478,7 +478,7 @@ const Profile = () => {
                 </Modal>
               </div>
 
-              {user.address.length > 0 ? (
+              {user?.address.length > 0 ? (
                 <ul className="list-unstyled p-0 m-0 d-grid gap-3">
                   {user.address.map((address) => (
                     <motion.li

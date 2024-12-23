@@ -48,8 +48,6 @@ const EditAddress = () => {
   }, []);
 
   const editAddress = async (address) => {
-    console.log(address);
-
     setLoading(true);
     try {
       const token = await localforage.getItem("authToken");
@@ -88,7 +86,6 @@ const EditAddress = () => {
       );
 
       if (res.data.success) {
-        console.log(res.data);
         dispatch(updateUser(res.data.user));
         toast.success(res.data.message);
         navigate(-1);
@@ -231,12 +228,7 @@ const EditAddress = () => {
           </div>
 
           <div className="d-lg-flex gap-2 justify-content-end">
-            <Button
-              className="btn-secondary"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              onClick={() => navigate(-1)}
-            >
+            <Button className="btn-secondary" onClick={() => navigate(-1)}>
               Cancel
             </Button>
             <Button type="submit" className="btn-success" disabled={loading}>

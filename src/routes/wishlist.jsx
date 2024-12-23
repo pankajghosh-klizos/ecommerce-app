@@ -20,7 +20,7 @@ const Wishlist = () => {
             <ul className="list-unstyled m-0 p-0 d-grid d-md-flex align-items-center flex-wrap gap-2 gap-md-3">
               {wishlistProducts.map((item, index) => (
                 <motion.li
-                  key={item?._id}
+                  key={item?.id}
                   className="list-group-item"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}

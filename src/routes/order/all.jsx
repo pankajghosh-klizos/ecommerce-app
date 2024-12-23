@@ -29,7 +29,6 @@ const AllOrders = () => {
       );
 
       if (res.data.success) {
-        console.log(res.data.data);
         setOrders(res.data.data);
       } else {
         toast.error(res.data.message || "Failed to fetch orders.");
