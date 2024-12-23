@@ -132,7 +132,11 @@ const SelectAddress = () => {
                   </div>
 
                   <div className="d-flex align-items-baseline gap-2">
-                    <Button type="button" className="p-0">
+                    <Button
+                      type="button"
+                      className="p-0"
+                      onClick={() => navigate(`/address/${address?._id}/edit`)}
+                    >
                       <img
                         src={Icons.ToEditIcon}
                         alt="Edit"
