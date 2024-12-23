@@ -56,7 +56,6 @@ const EditCard = ({ id, title = "Product Name", banner, price = 0 }) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-    hover: { scale: 1.03 },
   };
 
   return (
