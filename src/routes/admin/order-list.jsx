@@ -55,7 +55,12 @@ const OrderList = () => {
         visible: { transition: { staggerChildren: 0.2 } },
       }}
     >
-      <h1 className="fs-3 fw-semibold mb-3">All Orders</h1>
+      <h1 className="fs-3 fw-semibold mb-3">
+        All Orders{" "}
+        <span className="fs-5 opacity-75 bg-secondary-subtle px-2 rounded-1 ms-2">
+          {orders.length}
+        </span>
+      </h1>
 
       <ul className="list-unstyled m-0 W-100">
         {orders.length > 0 ? (

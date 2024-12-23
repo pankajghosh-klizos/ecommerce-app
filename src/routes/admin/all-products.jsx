@@ -16,7 +16,12 @@ const AllProducts = () => {
       }}
     >
       <div className="d-flex align-items-center justify-content-between mb-3 gap-3">
-        <h1 className="fs-3 fw-semibold m-0">All Products</h1>
+        <h1 className="fs-3 fw-semibold m-0">
+          All Products{" "}
+          <span className="fs-5 opacity-75 bg-secondary-subtle px-2 rounded-1 ms-2">
+            {products.length}
+          </span>
+        </h1>
 
         <Link
           to="/admin/add-product"
