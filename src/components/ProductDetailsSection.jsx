@@ -38,10 +38,7 @@ const ProductDetailsSection = () => {
     {
       icon: Icons.Home,
       title: "Stock Status",
-      subtitle:
-        selectedVariant.product_stock > 0
-          ? `${selectedVariant.product_stock} units`
-          : "Out of Stock",
+      subtitle: selectedVariant.product_stock > 0 ? "In Stock" : "Out of Stock",
       iconSize: "22px",
     },
     {
@@ -231,6 +228,7 @@ const ProductDetailsSection = () => {
               <div className="d-flex gap-2">
                 {variants.map((variant) => (
                   <button
+                    title={variant.product_color}
                     key={variant._id}
                     onClick={() => handleVariantChange(variant)}
                     className="btn rounded-circle colors p-0 border"

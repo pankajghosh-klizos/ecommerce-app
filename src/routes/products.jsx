@@ -3,94 +3,168 @@ import { Button, Container, ProductCard } from "../components";
 import { Icons } from "../constants/icons";
 import { useEffect } from "react";
 import Accordion from "../components/Accordion";
+import { useForm } from "react-hook-form";
+import { setFilteredProducts } from "../store/filterProducts.slice";
+import axios from "axios";
+import config from "../config/config";
+import toast from "react-hot-toast";
 
 const Products = () => {
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.products);
   const { filterProducts } = useSelector((state) => state.filterProducts);
+
+  const { register, handleSubmit, reset } = useForm();
+
   const sidebarItems = [
     {
       id: "brand",
       title: "Brand",
-      expanded: true,
       options: [
-        { id: "brand-apple", label: "Apple", checked: false },
-        { id: "brand-samsung", label: "Samsung", checked: false },
-        { id: "brand-xiaomi", label: "Xiaomi", checked: false },
-        { id: "brand-oneplus", label: "OnePlus", checked: false },
+        { id: "brand-apple", label: "Apple" },
+        { id: "brand-samsung", label: "Samsung" },
+        { id: "brand-xiaomi", label: "Xiaomi" },
+        { id: "brand-oneplus", label: "OnePlus" },
       ],
     },
     {
-      id: "colors",
+      id: "color",
       title: "Colors",
       options: [
-        { id: "color-black", label: "Black", checked: false },
-        { id: "color-white", label: "White", checked: false },
-        { id: "color-blue", label: "Blue", checked: false },
-        { id: "color-red", label: "Red", checked: false },
-        { id: "color-green", label: "Green", checked: false },
+        { id: "color-black", label: "Black" },
+        { id: "color-blue", label: "Blue" },
+        { id: "color-green", label: "Green" },
+        { id: "color-gold", label: "Gold" },
+        { id: "color-gray", label: "Gray" },
+        { id: "color-pink", label: "Pink" },
+        { id: "color-red", label: "Red" },
+        { id: "color-silver", label: "Silver" },
+        { id: "color-white", label: "White" },
       ],
     },
     {
-      id: "battery-capacity",
+      id: "battery_capacity",
       title: "Battery capacity",
       options: [
-        { id: "battery-capacity-4000mah", label: "4000mAh", checked: false },
-        { id: "battery-capacity-4500mah", label: "4500mAh", checked: false },
-        { id: "battery-capacity-5000mah", label: "5000mAh", checked: false },
-        { id: "battery-capacity-5500mah", label: "5500mAh", checked: false },
-        { id: "battery-capacity-6000mah", label: "6000mAh", checked: false },
+        { id: "battery-capacity-4000mah", label: "4000" },
+        { id: "battery-capacity-4500mah", label: "4500" },
+        { id: "battery-capacity-5000mah", label: "5000" },
+        { id: "battery-capacity-5500mah", label: "5500" },
+        { id: "battery-capacity-6000mah", label: "6000" },
       ],
     },
     {
-      id: "built-in-memory",
+      id: "storage",
       title: "Built-in memory",
       options: [
-        { id: "built-in-memory-32gb", label: "32GB", checked: false },
-        { id: "built-in-memory-64gb", label: "64GB", checked: false },
-        { id: "built-in-memory-128gb", label: "128GB", checked: false },
-        { id: "built-in-memory-256gb", label: "256GB", checked: false },
+        { id: "built-in-memory-32gb", label: "32GB" },
+        { id: "built-in-memory-64gb", label: "64GB" },
+        { id: "built-in-memory-128gb", label: "128GB" },
+        { id: "built-in-memory-256gb", label: "256GB" },
       ],
     },
   ];
 
+  const getFilterProducts = async (filters) => {
+    try {
+      // Construct query string dynamically
+      const query = Object.entries(filters)
+        .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+        .join("&");
+
+      const res = await axios.get(
+        `${config.backendUrl}/cyber/query/products/queryForFilteringProduct?${query}`
+      );
+
+      if (res.data.success) {
+        dispatch(setFilteredProducts(res.data.filterProducts));
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  const onSubmit = (data) => {
+    const transformedData = Object.entries(data).reduce((acc, [key, value]) => {
+      if (Array.isArray(value) && value.length > 0) {
+        acc[key] = value.join(",");
+      } else if (value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    getFilterProducts(transformedData);
+  };
+
+  const handleClearFilters = () => {
+    reset();
+    dispatch(setFilteredProducts(products));
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }, []);
 
   return (
-    <Container className="d-flex mt-5 pt-4">
-      <aside className="w-25 py-4 px-3">
-        {sidebarItems.map((sideItem) => (
-          <Accordion
-            key={sideItem?.id}
-            id={sideItem?.id}
-            title={sideItem?.title}
-            expanded={sideItem?.expanded}
-          >
-            <ul className="list-unstyle p-0 px-1 py-2 m-0">
-              {sideItem?.options.map((option) => (
-                <li className="list-group-item" key={option?.id}>
-                  <div className="form-check">
+    <Container className="d-md-flex mt-5 pt-4">
+      <aside
+        className="w-100 pt-md-4 pe-md-3 mb-4 mb-md-0 mx-auto"
+        style={{ maxWidth: "300px" }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {sidebarItems.map((sideItem) => (
+            <Accordion
+              key={sideItem?.id}
+              id={sideItem?.id}
+              title={sideItem?.title}
+            >
+              <ul className="list-unstyled m-0">
+                {sideItem?.options.map((option) => (
+                  <li
+                    className="d-flex align-items-center gap-2 p-1"
+                    key={option?.id}
+                  >
                     <input
-                      className="form-check-input"
                       type="checkbox"
                       id={option?.id}
-                      checked={option?.checked}
+                      {...register(sideItem.id)}
+                      value={option?.label}
+                      className="rounded-1"
+                      style={{ width: "18px", height: "18px" }}
                     />
-                    <label className="form-check-label" htmlFor={option?.id}>
-                      {option?.label}
+
+                    <label htmlFor={option?.id} className="m-0">
+                      {sideItem?.id === "battery_capacity"
+                        ? option?.label + " mAh"
+                        : option?.label}
                     </label>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </Accordion>
-        ))}
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+          ))}
+
+          <div className="d-flex justify-content-between">
+            <Button type="submit" className="btn-dark mt-3 px-5 w-100 me-2">
+              Filter
+            </Button>
+            <Button
+              type="button"
+              onClick={handleClearFilters}
+              className="btn-light mt-3 px-5 w-100"
+            >
+              Clear
+            </Button>
+          </div>
+        </form>
       </aside>
 
-      <section className="flex-grow-1 py-4 px-5 w-75">
-        <div className="d-lg-flex align-items-center justify-content-between gap-5 mb-3">
-          <p className="text-black-50">
+      <section className="p-2 p-md-4 px-md-0 w-100">
+        <div className="d-flex align-items-center justify-content-between gap-5 mb-3">
+          <p className="text-black-50 m-0">
             Selected Products:{" "}
             <span className="text-black">{filterProducts.length}</span>
           </p>
@@ -101,6 +175,7 @@ const Products = () => {
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              disabled
             >
               By rating
             </Button>
@@ -134,14 +209,14 @@ const Products = () => {
           </div>
         </div>
 
-        {filterProducts?.length > 0 ? (
-          <ul className="list-unstyle d-flex gap-2 flex-wrap m-0 p-0 px-5">
-            {filterProducts.map((product) => (
-              <li key={product?._id} className="list-group-item product-card">
+        {filterProducts.length > 0 ? (
+          <ul className="list-unstyled d-flex gap-3 gap-md-2 flex-wrap m-0 justify-content-center justify-content-md-start">
+            {filterProducts.map((product, index) => (
+              <li key={index}>
                 <ProductCard
                   id={product?._id}
                   title={product?.product_title}
-                  banner={product?.first_image}
+                  banner={product?.variants[0].product_images[0]}
                   price={product?.product_basePrice}
                 />
               </li>

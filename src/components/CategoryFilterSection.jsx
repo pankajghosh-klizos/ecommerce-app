@@ -9,6 +9,7 @@ import { Icons } from "../constants/icons";
 import { useSelector } from "react-redux";
 import PageLoader from "./PageLoader";
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 
 const CategoryFilterSection = () => {
   const { filterProducts } = useSelector((state) => state.filterProducts);
@@ -144,11 +145,11 @@ const CategoryFilterSection = () => {
               </Button>
             </motion.li>
           ))}
-          {/* <motion.li whileHover={{ scale: 1.05 }}>
+          <motion.li whileHover={{ scale: 1.05 }}>
             <Link to="/products" className="btn fs-5 w-100">
               View All
             </Link>
-          </motion.li> */}
+          </motion.li>
         </motion.ul>
 
         {isLoading || categoryLoading ? (
