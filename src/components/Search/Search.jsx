@@ -9,6 +9,7 @@ import config from "../../config/config.js";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import "./Search.scss";
+import toast from "react-hot-toast";
 
 const Search = ({ className = "" }) => {
   const { register, watch, handleSubmit, reset } = useForm();
@@ -20,10 +21,13 @@ const Search = ({ className = "" }) => {
 
   const searchProducts = async (query) => {
     try {
-      const response = await axios.get(
+      const res = await axios.get(
         `${config.backendUrl}/cyber/query/products/searchProductsByTitleAndDescription/search?query=${query}`
       );
-      setResults(response.data.products);
+
+      if (res.data.success) {
+        setResults(res.data.products);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
