@@ -12,7 +12,7 @@ const AllProducts = () => {
       animate="visible"
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.2 } },
+        visible: { transition: { staggerChildren: 0.1 } },
       }}
     >
       <div className="d-flex align-items-center justify-content-between mb-3 gap-3">
