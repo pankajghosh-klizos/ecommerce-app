@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Icons } from "../constants/icons.js";
 import { AuthFormLayout } from "../layouts/index.js";
 import { Button, Container, Input, Loader } from "../components/index.js";
 import axios from "axios";
@@ -52,10 +51,6 @@ const Signup = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const signupWithGoogle = async () => {
-    toast.error("This feature is not available yet");
   };
 
   return (
@@ -115,16 +110,6 @@ const Signup = () => {
               Continue {loading && <Loader data-bs-theme="dark" />}
             </Button>
           </form>
-
-          <p className="text-center fs-5 mb-2 text-black-50">or</p>
-
-          <Button
-            className="btn-outline-dark w-100 py-2"
-            onClick={signupWithGoogle}
-          >
-            <img src={Icons.Google} alt="icon" width="18px" />
-            <span>Continue with Google</span>
-          </Button>
 
           <p className="text-center mt-3">
             Already have an account?

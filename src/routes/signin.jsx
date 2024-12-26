@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Icons } from "../constants/icons";
 import { AuthFormLayout } from "../layouts";
 import { Button, Container, Input, Loader } from "../components";
 import toast from "react-hot-toast";
@@ -54,10 +53,6 @@ const Signin = () => {
     }
   };
 
-  const signinWithGoogle = async () => {
-    toast.error("This feature is not available yet");
-  };
-
   return (
     <section className="mt-5 py-5">
       <Container>
@@ -90,16 +85,6 @@ const Signin = () => {
               Continue {loading && <Loader data-bs-theme="dark" />}
             </Button>
           </form>
-
-          <p className="text-center fs-5 mb-2 text-black-50">or</p>
-
-          <Button
-            className="btn-outline-dark w-100 py-2"
-            onClick={signinWithGoogle}
-          >
-            <img src={Icons.Google} alt="icon" width="18px" />
-            <span>Continue with Google</span>
-          </Button>
 
           <p className="text-center mt-3">
             Don&apos;t have an account?
