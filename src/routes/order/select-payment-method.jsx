@@ -71,14 +71,6 @@ const SelectPaymentMethod = () => {
   };
 
   const handleOrderPlacement = async (endpoint, successCallback) => {
-    console.log({
-      address,
-      amount: totalPrice,
-      items,
-      deliveryDate,
-      shippingMethod: shippingDescription,
-    });
-
     setLoading(true);
     try {
       const token = await localforage.getItem("authToken");
@@ -86,7 +78,6 @@ const SelectPaymentMethod = () => {
         toast.error("Please login again to continue.");
         return navigate("/login");
       }
-
       const res = await axios.post(
         `${config.backendUrl}/cyber/payment/orders/${endpoint}`,
         {
@@ -101,7 +92,6 @@ const SelectPaymentMethod = () => {
           withCredentials: true,
         }
       );
-
       if (res.data.success) {
         successCallback(res.data);
       } else {
@@ -227,9 +217,7 @@ const SelectPaymentMethod = () => {
 
             <div className="mb-3">
               <p className="fw-semibold text-black-50 mb-1">Shipment method</p>
-              <p className="fs-5 m-0">
-                {shippingMethod === "method1" ? "Free" : "Fast Delivery"}
-              </p>
+              <p className="fs-5 m-0">{shippingDescription}</p>
             </div>
 
             <div className="d-flex align-items-center justify-content-between mb-2">
