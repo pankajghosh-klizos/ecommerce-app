@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import config from "../../config/config";
-import { OrderStatusForm, PageLoader } from "../../components";
+import { PageLoader } from "../../components";
 import { motion } from "motion/react";
 
 const UserList = () => {
@@ -28,7 +28,6 @@ const UserList = () => {
       );
 
       if (res.data.success) {
-        console.log(res.data.users);
         setUsers(res.data.users);
       } else {
         toast.error(res.data.message || "Failed to fetch orders.");
@@ -90,7 +89,8 @@ const UserList = () => {
                 <div>
                   <p className="fs-5 fw-semibold mb-0">{user?.fullname}</p>
                   <p className="fs-6 mb-0">{user?.email}</p>
-                  <p className="mb-0">+91 {user?.phone}</p>
+                  <p className="mb-2">+91 {user?.phone}</p>
+                  <p className="mb-0">Total Orders : {user?.orderCount}</p>
                 </div>
               </div>
             </motion.li>
