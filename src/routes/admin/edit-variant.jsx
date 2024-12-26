@@ -149,18 +149,14 @@ const EditVariant = () => {
               placeholder="Select a color"
               options={[
                 { value: "black", label: "Black" },
-                { value: "purple", label: "Purple" },
-                { value: "red", label: "Red" },
                 { value: "blue", label: "Blue" },
-                { value: "white", label: "White" },
-                { value: "yellow", label: "Yellow" },
                 { value: "green", label: "Green" },
-                { value: "orange", label: "Orange" },
-                { value: "pink", label: "Pink" },
-                { value: "brown", label: "Brown" },
-                { value: "gray", label: "Gray" },
-                { value: "silver", label: "Silver" },
                 { value: "gold", label: "Gold" },
+                { value: "gray", label: "Gray" },
+                { value: "pink", label: "Pink" },
+                { value: "red", label: "Red" },
+                { value: "silver", label: "Silver" },
+                { value: "white", label: "White" },
               ]}
               containerClassName="mb-4"
               errorMessage={errors?.product_color?.message}
