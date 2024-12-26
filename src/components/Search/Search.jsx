@@ -9,6 +9,7 @@ import config from "../../config/config.js";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import "./Search.scss";
+import toast from "react-hot-toast";
 
 const Search = ({ className = "" }) => {
   const { register, watch, handleSubmit, reset } = useForm();
