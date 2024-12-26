@@ -9,7 +9,6 @@ import {
   setShippingMethod,
   setDeliveryDate,
 } from "../../store/orderDetails.slice";
-import { i } from "motion/react-client";
 
 const SelectShippingMethod = () => {
   const navigate = useNavigate();
@@ -62,8 +61,6 @@ const SelectShippingMethod = () => {
   const selectedMethod = watch("shippingMethod");
 
   const onSubmit = (data) => {
-    console.log(data);
-
     if (selectedMethod === "method1") {
       dispatch(setDeliveryDate(getFormattedDate(oneWeekLater)));
     }
@@ -129,7 +126,7 @@ const SelectShippingMethod = () => {
             <ul className="list-unstyled mb-4" style={{ minHeight: "25rem" }}>
               {shippingMethods.map((method, index) => (
                 <motion.li
-                  className={`border border-light border-2 bg-light rounded-3 d-flex gap-2 gap-md-3 p-3 p-md-4 mb-3 ${
+                  className={`border border-light border-2 bg-light rounded-3 d-flex align-items-center gap-2 gap-md-3 p-3 p-md-4 mb-3 ${
                     selectedMethod === method.id ? "border-dark" : ""
                   } ${method.amount > 50 ? "opacity-50 pe-none" : ""}`}
                   key={method.id}
@@ -168,25 +165,23 @@ const SelectShippingMethod = () => {
                     <span className="fs-5 m-0">{method?.label}</span>
                   </label>
 
-                  <div>
-                    {method?.amount === 0 ? (
-                      <p className="m-0 fw-semibold text-nowrap">
-                        {getFormattedDate(oneWeekLater)}
-                      </p>
-                    ) : (
-                      <>
-                        {method?.amount > 50 ? (
-                          <select className="btn" defaultValue="selectdate">
-                            <option value="selectdate">Select Date</option>
-                          </select>
-                        ) : (
-                          <p className="m-0 fw-semibold text-nowrap">
-                            {getFormattedDate(tommorow)}
-                          </p>
-                        )}
-                      </>
-                    )}
-                  </div>
+                  {method?.amount === 0 ? (
+                    <p className="m-0 fw-semibold text-nowrap">
+                      {getFormattedDate(oneWeekLater)}
+                    </p>
+                  ) : (
+                    <>
+                      {method?.amount > 50 ? (
+                        <select className="btn" defaultValue="selectdate">
+                          <option value="selectdate">Select Date</option>
+                        </select>
+                      ) : (
+                        <p className="m-0 fw-semibold text-nowrap">
+                          {getFormattedDate(tommorow)}
+                        </p>
+                      )}
+                    </>
+                  )}
                 </motion.li>
               ))}
             </ul>

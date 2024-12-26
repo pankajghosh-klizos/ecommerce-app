@@ -18,8 +18,8 @@ const SelectPaymentMethod = () => {
   const { address, amount, items, shippingMethod, deliveryDate } = useSelector(
     (state) => state.orderDetails
   );
-  const totalPrice =
-    shippingMethod === "method1" ? amount + 50 : amount + 50 + 50;
+
+  const totalPrice = shippingMethod === "method1" ? amount + 100 : amount + 150;
 
   let shippingDescription;
   if (shippingMethod === "method1") {
@@ -225,29 +225,32 @@ const SelectPaymentMethod = () => {
               <p className="mb-0">{user?.phone}</p>
             </div>
 
-            <div className="mb-4">
-              <p className="fw-semibold text-black-50 mb-2">Shipment method</p>
+            <div className="mb-3">
+              <p className="fw-semibold text-black-50 mb-1">Shipment method</p>
+              <p className="fs-5 m-0">
+                {shippingMethod === "method1" ? "Free" : "Fast Delivery"}
+              </p>
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between mb-2">
+              <p className="fs-5 m-0">Subtotal</p>
+              <p className="fs-5 m-0">₹ {amount.toLocaleString("en-IN")}</p>
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between">
+              <p className="fs-5 text-black-50 m-0">Tax</p>
+              <p className="fs-5 m-0">₹ 50</p>
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between">
+              <p className="fs-5 text-black-50 m-0">Handling Charge</p>
+              <p className="fs-5 m-0">₹ 50</p>
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <p className="fs-5 text-black-50 m-0">Shipping Charge</p>
               <p className="fs-5 m-0">
                 {shippingMethod === "method1" ? "Free" : "₹ 50"}
-              </p>
-            </div>
-
-            <div className="d-flex align-items-center justify-content-between">
-              <p className="fs-5">Subtotal</p>
-              <p className="fs-5">₹ {amount.toLocaleString("en-IN")}</p>
-            </div>
-
-            <div className="d-flex align-items-center justify-content-between">
-              <p className="fs-5 text-black-50">Estimated Tax</p>
-              <p className="fs-5">₹ 50</p>
-            </div>
-
-            <div className="d-flex align-items-center justify-content-between">
-              <p className="fs-5 text-black-50">
-                Estimated Shipping & Handling
-              </p>
-              <p className="fs-5">
-                {shippingMethod === "method1" ? "₹ 50" : "₹ 50 + 50"}
               </p>
             </div>
 

@@ -287,23 +287,23 @@ const Cart = () => {
               >
                 <p className="fs-4 fw-semibold mb-3">Order Summary</p>
 
-                <div className="d-flex align-items-center justify-content-between">
-                  <p className="fs-5">Subtotal</p>
-                  <p className="fs-5">
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <p className="fs-5 m-0">Subtotal</p>
+                  <p className="fs-5 m-0">
                     ₹ {calculateSubtotal().toLocaleString("en-IN")}
                   </p>
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between">
-                  <p className="fs-5 text-black-50">Estimated Tax</p>
-                  <p className="fs-5">₹ {taxCharge}</p>
+                  <p className="fs-5 text-black-50 m-0">Estimated Tax</p>
+                  <p className="fs-5 m-0">₹ {taxCharge}</p>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-between">
-                  <p className="fs-5 text-black-50">
-                    Estimated Shipping & Handling
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <p className="fs-5 text-black-50 m-0">
+                    Estimated Handling Charge
                   </p>
-                  <p className="fs-5">₹ {shippingCharge}</p>
+                  <p className="fs-5 m-0">₹ {shippingCharge}</p>
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mb-5">
