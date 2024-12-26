@@ -218,7 +218,10 @@ const ProductDetailsSection = () => {
                 ₹ {selectedVariant.totalVariantPrice?.toLocaleString("en-IN")}
               </span>
               <strike className="text-black-50 h4">
-                ₹ {basePrice.toLocaleString("en-IN")}
+                ₹{" "}
+                {(selectedVariant.totalVariantPrice + 5000)?.toLocaleString(
+                  "en-IN"
+                )}
               </strike>
             </motion.h3>
 
