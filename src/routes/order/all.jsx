@@ -71,7 +71,12 @@ const AllOrders = () => {
           className="d-flex align-items-center justify-content-between gap-2 mb-4"
           variants={cardVariants}
         >
-          <h1 className="fs-3 fw-semibold mb-0">All Orders</h1>
+          <h1 className="fs-3 fw-semibold m-0">
+            All Orders{" "}
+            <span className="fs-5 opacity-75 bg-secondary-subtle px-2 rounded-1 ms-2">
+              {orders.length}
+            </span>
+          </h1>
         </motion.div>
 
         {orders.length > 0 ? (
@@ -102,12 +107,32 @@ const AllOrders = () => {
 
                     <p className="card-text text-black-50 m-0">
                       <span className="me-1 text-black">Order Status:</span>
-                      {order.orderStatus}
+                      <span
+                        className={`${
+                          order.orderStatus === "Delivered"
+                            ? "text-success"
+                            : order.orderStatus === "Processing"
+                            ? "text-warning"
+                            : "text-danger"
+                        }`}
+                      >
+                        {order.orderStatus}
+                      </span>
                     </p>
 
                     <p className="card-text text-black-50 m-0">
                       <span className="me-1 text-black">Payment Status:</span>
-                      {order.paymentStatus}
+                      <span
+                        className={`${
+                          order.paymentStatus === "Paid"
+                            ? "text-success"
+                            : order.paymentStatus === "Pending"
+                            ? "text-warning"
+                            : "text-danger"
+                        }`}
+                      >
+                        {order.paymentStatus}
+                      </span>
                     </p>
 
                     <p className="card-text text-black-50 m-0">
